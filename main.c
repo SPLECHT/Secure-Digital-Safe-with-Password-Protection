@@ -16,7 +16,7 @@ int wrongAttempts = 0;
 int count = 0;
 int start = 0;
 
-enum AUTHSTATE {FIRST_AUTH, NORMAL_AUTH, PASSWORD_AUTH}; // Hangi aþamada olduðunu belirtme ve kontrol deðiþkeni
+enum AUTHSTATE {FIRST_AUTH, NORMAL_AUTH, PASSWORD_AUTH}; // Hangi aÃ¾amada olduÃ°unu belirtme ve kontrol deÃ°iÃ¾keni
 enum AUTHSTATE currentState = FIRST_AUTH;
 
 #int_EXT
@@ -68,7 +68,7 @@ int EEPROM_read(int address) { // EEPROM okuma fonksiyonu
    return read_eeprom(address);
 }
 
-void DeleteButton() { // Girilen deðerleri temizleme
+void DeleteButton() { // Girilen deÃ°erleri temizleme
    lcd_gotoxy(1, 2);
    printf(lcd_putc, "                ");
    
@@ -88,20 +88,20 @@ void NormalAuth() {
    lcd_gotoxy(1,2);
 }
 
-void SaveThePassword() { // Girilen þifreyi EEPROM'a kaydetme
+void SaveThePassword() { // Girilen Ã¾ifreyi EEPROM'a kaydetme
    for(int i = 0; i < 6; i++) {
-      pwd[i] = enteredPassword[i]; // Þifreyi enteredPassword'dan al
+      pwd[i] = enteredPassword[i]; // Ãžifreyi enteredPassword'dan al
       EEPROM_write(i, pwd[i]);
    }
    
    currentState = NORMAL_AUTH;
 }
 
-void PasswordAuth() { // Kaydedilen þifre ile girilen þifre ayný mý kontrolü
+void PasswordAuth() { // Kaydedilen Ã¾ifre ile girilen Ã¾ifre aynÃ½ mÃ½ kontrolÃ¼
    int passwordMatch = 1;
    
    for (int i = 0; i < 6; i++) {
-      pwd[i] = EEPROM_read(i); // EEPROM'dan þifreyi oku
+      pwd[i] = EEPROM_read(i); // EEPROM'dan Ã¾ifreyi oku
       
       if (enteredPassword[i] != pwd[i]) {
          passwordMatch = 0;  
@@ -133,13 +133,13 @@ void PasswordAuth() { // Kaydedilen þifre ile girilen þifre ayný mý kontrolü
    }
 }
 
-void FirstAuth() { // Ýlk açýlýþ ekraný (Ýlk þifre kaydetmek için)
+void FirstAuth() { // Ãlk aÃ§Ã½lÃ½Ã¾ ekranÃ½ (Ãlk Ã¾ifre kaydetmek iÃ§in)
    start = 0;
-   printf(lcd_putc,"Sifre Kaydet ");
+   printf(lcd_putc,"Sifre Kaydet    ");
    lcd_gotoxy(1,2);
 }
 
-void DoneButton() { // Deðerleri girdikten sonra tamam butonu
+void DoneButton() { // DeÃ°erleri girdikten sonra tamam butonu
    if (currentState == FIRST_AUTH) {
       lcd_gotoxy(1,2);
       SaveThePassword();
@@ -152,7 +152,7 @@ void DoneButton() { // Deðerleri girdikten sonra tamam butonu
    }
 }
 
-void TakeInput() { // Kullanýcýdan sayý giriþi
+void TakeInput() { // KullanÃ½cÃ½dan sayÃ½ giriÃ¾i
    char keyPressed = 0 ;
    
    output_high(PIN_D0);
@@ -180,7 +180,7 @@ void TakeInput() { // Kullanýcýdan sayý giriþi
    output_low(PIN_D3);
    
    if (keyPressed != 0) {
-      if (passwordIndex < 6) { // 6 karakter sýnýrý
+      if (passwordIndex < 6) { // 6 karakter sÃ½nÃ½rÃ½
          enteredPassword[passwordIndex] = keyPressed;
          passwordIndex++;
       }
@@ -188,7 +188,7 @@ void TakeInput() { // Kullanýcýdan sayý giriþi
       for (int i = 0; i < passwordIndex; i++) {
          printf(lcd_putc, "%c", enteredPassword[i]);
       }
-      if (currentState == NORMAL_AUTH && passwordIndex >= 6) { // 6 karakter girildiðinde doðrula
+      if (currentState == NORMAL_AUTH && passwordIndex >= 6) { // 6 karakter girildiÃ°inde doÃ°rula
          currentState = PASSWORD_AUTH;
          PasswordAuth();
       }
